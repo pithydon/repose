@@ -1,22 +1,122 @@
+-- override nodes
+
+minetest.override_item("default:stone", {
+	drop = "default:gravel"
+})
+
+minetest.override_item("default:cobble", {
+	drop = "default:gravel"
+})
+
+minetest.override_item("default:gravel", {
+	groups = {crumbly = 2, falling_node = 1, stone = 1},
+})
+
 minetest.override_item("default:dirt", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	soil = {
+		base = "default:dirt",
+		dry = "farming:soil",
+		wet = "farming:soil_wet"
+	}
 })
+
 minetest.override_item("default:dirt_with_grass", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	soil = {
+		base = "default:dirt_with_grass",
+		dry = "farming:soil",
+		wet = "farming:soil_wet"
+	}
 })
+
 minetest.override_item("default:dirt_with_grass_footsteps", {
 	groups = {crumbly = 3, soil = 1, not_in_creative_inventory = 1, falling_node = 1},
 })
+
 minetest.override_item("default:dirt_with_dry_grass", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	soil = {
+		base = "default:dirt_with_dry_grass",
+		dry = "farming:soil",
+		wet = "farming:soil_wet"
+	}
 })
+
 minetest.override_item("default:dirt_with_snow", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 })
 
-repose = {}
+-- new nodes
 
-function repose.register(name)
+minetest.register_node("repose:reinforced_dirt", {
+	description = "Reinforced Dirt",
+	tiles = {"default_dirt.png"},
+	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	sounds = default.node_sound_dirt_defaults(),
+	drop = "default:dirt"
+})
+
+minetest.register_node("repose:reinforced_sand", {
+	description = "Reinforced Sand",
+	tiles = {"default_sand.png"},
+	groups = {crumbly = 3, falling_node = 1, sand = 1},
+	sounds = default.node_sound_sand_defaults(),
+	drop = "default:sand"
+})
+
+minetest.register_node("repose:reinforced_desert_sand", {
+	description = "Reinforced Desert Sand",
+	tiles = {"default_desert_sand.png"},
+	groups = {crumbly = 3, falling_node = 1, sand = 1},
+	sounds = default.node_sound_sand_defaults(),
+	drop = "default:desert_sand"
+})
+
+-- crafting
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "default:cobble",
+	recipe = {"default:gravel", "default:clay_lump"}
+})
+
+minetest.register_craft({
+	output = "repose:reinforced_dirt 2",
+	recipe = {
+		{"default:dirt"},
+		{"default:paper"},
+		{"default:dirt"}
+	}
+})
+
+minetest.register_craft({
+	output = "repose:reinforced_sand 2",
+	recipe = {
+		{"default:sand"},
+		{"default:paper"},
+		{"default:sand"}
+	}
+})
+
+minetest.register_craft({
+	output = "repose:reinforced_desert_sand 2",
+	recipe = {
+		{"default:desert_sand"},
+		{"default:paper"},
+		{"default:desert_sand"}
+	}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "default:stone",
+	recipe = "default:gravel",
+})
+
+-- abm
+
+local register_abm = function (name)
 
 minetest.register_abm({
 	nodenames = {name},
@@ -82,10 +182,11 @@ minetest.register_abm({
 
 end
 
-repose.register("default:sand")
-repose.register("default:gravel")
-repose.register("default:dirt")
-repose.register("default:dirt_with_grass")
-repose.register("default:dirt_with_grass_footsteps")
-repose.register("default:dirt_with_dry_grass")
-repose.register("default:dirt_with_snow")
+register_abm("default:sand")
+register_abm("default:desert_sand")
+register_abm("default:gravel")
+register_abm("default:dirt")
+register_abm("default:dirt_with_grass")
+register_abm("default:dirt_with_grass_footsteps")
+register_abm("default:dirt_with_dry_grass")
+register_abm("default:dirt_with_snow")
