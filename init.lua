@@ -82,30 +82,21 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "repose:reinforced_dirt 2",
-	recipe = {
-		{"default:dirt"},
-		{"default:paper"},
-		{"default:dirt"}
-	}
+	type = "shapeless",
+	output = "repose:reinforced_dirt",
+	recipe = {"default:dirt", "default:paper"}
 })
 
 minetest.register_craft({
-	output = "repose:reinforced_sand 2",
-	recipe = {
-		{"default:sand"},
-		{"default:paper"},
-		{"default:sand"}
-	}
+	type = "shapeless",
+	output = "repose:reinforced_sand",
+	recipe = {"default:sand", "default:paper"}
 })
 
 minetest.register_craft({
-	output = "repose:reinforced_desert_sand 2",
-	recipe = {
-		{"default:desert_sand"},
-		{"default:paper"},
-		{"default:desert_sand"}
-	}
+	type = "shapeless",
+	output = "repose:reinforced_desert_sand",
+	recipe = {"default:desert_sand", "default:paper"}
 })
 
 minetest.register_craft({
