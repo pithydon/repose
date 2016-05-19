@@ -4,10 +4,6 @@ minetest.override_item("default:stone", {
 	drop = "default:gravel"
 })
 
-minetest.override_item("default:cobble", {
-	drop = "default:gravel"
-})
-
 minetest.override_item("default:gravel", {
 	groups = {crumbly = 2, falling_node = 1, stone = 1},
 })
@@ -54,7 +50,6 @@ minetest.register_node("repose:reinforced_dirt", {
 	tiles = {"default_dirt.png"},
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 	sounds = default.node_sound_dirt_defaults(),
-	drop = "default:dirt"
 })
 
 minetest.register_node("repose:reinforced_sand", {
@@ -62,7 +57,6 @@ minetest.register_node("repose:reinforced_sand", {
 	tiles = {"default_sand.png"},
 	groups = {crumbly = 3, falling_node = 1, sand = 1},
 	sounds = default.node_sound_sand_defaults(),
-	drop = "default:sand"
 })
 
 minetest.register_node("repose:reinforced_desert_sand", {
@@ -70,7 +64,6 @@ minetest.register_node("repose:reinforced_desert_sand", {
 	tiles = {"default_desert_sand.png"},
 	groups = {crumbly = 3, falling_node = 1, sand = 1},
 	sounds = default.node_sound_sand_defaults(),
-	drop = "default:desert_sand"
 })
 
 -- crafting
@@ -83,8 +76,20 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "shapeless",
+	output = "default:gravel",
+	recipe = {"default:cobble"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
 	output = "repose:reinforced_dirt",
 	recipe = {"default:dirt", "default:paper"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "default:dirt",
+	recipe = {"repose:reinforced_dirt"}
 })
 
 minetest.register_craft({
@@ -95,8 +100,20 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "shapeless",
+	output = "default:sand",
+	recipe = {"repose:reinforced_sand"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
 	output = "repose:reinforced_desert_sand",
 	recipe = {"default:desert_sand", "default:paper"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "default:desert_sand",
+	recipe = {"repose:reinforced_desert_sand"}
 })
 
 minetest.register_craft({
