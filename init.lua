@@ -140,49 +140,31 @@ minetest.register_abm({
 		local southdown = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z - 1})
 		local westdown = minetest.get_node({x = pos.x - 1, y = pos.y - 1, z = pos.z})
 		local down = minetest.get_node({x = pos.x, y = pos.y - 1, z = pos.z})
-		local northopen
-		if north.name == "air" or north.name == "default:water_source" or north.name == "default:water_flowing" or north.name == "default:river_water_source" or north.name == "default:river_water_flowing" then
-		northopen = true else northopen = false end
-		local eastopen
-		if east.name == "air" or east.name == "default:water_source" or east.name == "default:water_flowing" or east.name == "default:river_water_source" or east.name == "default:river_water_flowing" then
-		eastopen = true else eastopen = false end
-		local southopen
-		if south.name == "air" or south.name == "default:water_source" or south.name == "default:water_flowing" or south.name == "default:river_water_source" or south.name == "default:river_water_flowing" then
-		southopen = true else southopen = false end
-		local westopen
-		if west.name == "air" or west.name == "default:water_source" or west.name == "default:water_flowing" or west.name == "default:river_water_source" or west.name == "default:river_water_flowing" then
-		westopen = true else westopen = false end
-		local northdownopen
-		if northdown.name == "air" or northdown.name == "default:water_source" or northdown.name == "default:water_flowing" or northdown.name == "default:river_water_source" or northdown.name == "default:river_water_flowing" then
-		northdownopen = true else northdownopen = false end
-		local eastdownopen
-		if eastdown.name == "air" or eastdown.name == "default:water_source" or eastdown.name == "default:water_flowing" or eastdown.name == "default:river_water_source" or eastdown.name == "default:river_water_flowing" then
-		eastdownopen = true else eastdownopen = false end
-		local southdownopen
-		if southdown.name == "air" or southdown.name == "default:water_source" or southdown.name == "default:water_flowing" or southdown.name == "default:river_water_source" or southdown.name == "default:river_water_flowing" then
-		southdownopen = true else southdownopen = false end
-		local westdownopen
-		if westdown.name == "air" or westdown.name == "default:water_source" or westdown.name == "default:water_flowing" or westdown.name == "default:river_water_source" or westdown.name == "default:river_water_flowing" then
-		westdownopen = true else westdownopen = false end
-		local downopen
-		if down.name == "air" or down.name == "default:water_source" or down.name == "default:water_flowing" or down.name == "default:river_water_source" or down.name == "default:river_water_flowing" then
-		downopen = true else downopen = false end
-		if downopen then
+		local north2 = minetest.registered_nodes[north.name]
+		local east2 = minetest.registered_nodes[east.name]
+		local south2 = minetest.registered_nodes[south.name]
+		local west2 = minetest.registered_nodes[west.name]
+		local northdown2 = minetest.registered_nodes[northdown.name]
+		local eastdown2 = minetest.registered_nodes[eastdown.name]
+		local southdown2 = minetest.registered_nodes[southdown.name]
+		local westdown2 = minetest.registered_nodes[westdown.name]
+		local down2 = minetest.registered_nodes[down.name]
+		if down2.buildable_to then
 			minetest.set_node(pos, {name = "air"})
-			minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = name})
+			minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = name})
 		else
-			if northopen and northdownopen then
+			if north2.buildable_to and northdown2.buildable_to then
 				minetest.set_node(pos, {name = "air"})
-				minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = name})
-			elseif eastopen and eastdownopen then
+				minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = name})
+			elseif east2.buildable_to and eastdown2.buildable_to then
 				minetest.set_node(pos, {name = "air"})
-				minetest.set_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = name})
-			elseif southopen and southdownopen then
+				minetest.place_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = name})
+			elseif south2.buildable_to and southdown2.buildable_to then
 				minetest.set_node(pos, {name = "air"})
-				minetest.set_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = name})
-			elseif westopen and westdownopen then
+				minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = name})
+			elseif west2.buildable_to and westdown2.buildable_to then
 				minetest.set_node(pos, {name = "air"})
-				minetest.set_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = name})
+				minetest.place_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = name})
 			end
 		end
 	end,
