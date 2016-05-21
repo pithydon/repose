@@ -149,20 +149,25 @@ minetest.register_abm({
 		local southdown2 = minetest.registered_nodes[southdown.name]
 		local westdown2 = minetest.registered_nodes[westdown.name]
 		local down2 = minetest.registered_nodes[down.name]
-		if down2.buildable_to then
+		local northdownopen if northdown2.buildable_to and northdown.name ~= "ignore" then northdownopen = true else northdownopen = false end
+		local eastdownopen if eastdown2.buildable_to and eastdown.name ~= "ignore" then eastdownopen = true else eastdownopen = false end
+		local southdownopen if southdown2.buildable_to and southdown.name ~= "ignore" then southdownopen = true else southdownopen = false end
+		local westdownopen if westdown2.buildable_to and westdown.name ~= "ignore" then westdownopen = true else westdownopen = false end
+		local downopen if down2.buildable_to and down.name ~= "ignore" then downopen = true else downopen = false end
+		if downopen then
 			minetest.set_node(pos, {name = "air"})
 			minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = name})
 		else
-			if north2.buildable_to and northdown2.buildable_to then
+			if north2.buildable_to and northdownopen then
 				minetest.set_node(pos, {name = "air"})
 				minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = name})
-			elseif east2.buildable_to and eastdown2.buildable_to then
+			elseif east2.buildable_to and eastdownopen then
 				minetest.set_node(pos, {name = "air"})
 				minetest.place_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = name})
-			elseif south2.buildable_to and southdown2.buildable_to then
+			elseif south2.buildable_to and southdownopen then
 				minetest.set_node(pos, {name = "air"})
 				minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = name})
-			elseif west2.buildable_to and westdown2.buildable_to then
+			elseif west2.buildable_to and westdownopen then
 				minetest.set_node(pos, {name = "air"})
 				minetest.place_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = name})
 			end
