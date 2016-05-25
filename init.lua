@@ -10,20 +10,10 @@ minetest.override_item("default:gravel", {
 
 minetest.override_item("default:dirt", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
-	soil = {
-		base = "default:dirt",
-		dry = "farming:soil",
-		wet = "farming:soil_wet"
-	}
 })
 
 minetest.override_item("default:dirt_with_grass", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
-	soil = {
-		base = "default:dirt_with_grass",
-		dry = "farming:soil",
-		wet = "farming:soil_wet"
-	}
 })
 
 minetest.override_item("default:dirt_with_grass_footsteps", {
@@ -32,11 +22,6 @@ minetest.override_item("default:dirt_with_grass_footsteps", {
 
 minetest.override_item("default:dirt_with_dry_grass", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
-	soil = {
-		base = "default:dirt_with_dry_grass",
-		dry = "farming:soil",
-		wet = "farming:soil_wet"
-	}
 })
 
 minetest.override_item("default:dirt_with_snow", {
@@ -64,6 +49,43 @@ minetest.register_node("repose:reinforced_desert_sand", {
 	tiles = {"default_desert_sand.png"},
 	groups = {crumbly = 3, falling_node = 1, sand = 1},
 	sounds = default.node_sound_sand_defaults(),
+})
+
+minetest.register_node("repose:reinforced_dirt_with_grass", {
+	description = "Reinforced Dirt with Grass",
+	tiles = {"default_grass.png", "default_dirt.png",
+		{name = "default_dirt.png^default_grass_side.png",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	drop = "repose:reinforced_dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.25},
+	}),
+})
+
+minetest.register_node("repose:reinforced_dirt_with_dry_grass", {
+	description = "Reinforced Dirt with Dry Grass",
+	tiles = {"default_dry_grass.png",
+		"default_dirt.png",
+		{name = "default_dirt.png^default_dry_grass_side.png",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	drop = "repose:reinforced_dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_grass_footstep", gain = 0.4},
+	}),
+})
+
+minetest.register_node("repose:reinforced_dirt_with_snow", {
+	description = "Reinforced Dirt with Snow",
+	tiles = {"default_snow.png", "default_dirt.png",
+		{name = "default_dirt.png^default_snow_side.png",
+			tileable_vertical = false}},
+	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	drop = "repose:reinforced_dirt",
+	sounds = default.node_sound_dirt_defaults({
+		footstep = {name = "default_snow_footstep", gain = 0.15},
+	}),
 })
 
 -- crafting
@@ -123,6 +145,8 @@ minetest.register_craft({
 })
 
 -- abm
+
+dofile(minetest.get_modpath("repose").."/lgplabm.lua")
 
 local register_abm = function (name)
 
