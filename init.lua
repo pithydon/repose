@@ -28,6 +28,14 @@ minetest.override_item("default:dirt_with_snow", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 })
 
+minetest.override_item("farming:soil", {
+	groups = {crumbly=3, not_in_creative_inventory=1, soil=2, grassland = 1, field = 1, falling_node = 1},
+})
+
+minetest.override_item("farming:soil_wet", {
+	groups = {crumbly=3, not_in_creative_inventory=1, soil=3, wet = 1, grassland = 1, field = 1, falling_node = 1},
+})
+
 -- new nodes
 
 minetest.register_node("repose:reinforced_dirt", {
@@ -35,6 +43,11 @@ minetest.register_node("repose:reinforced_dirt", {
 	tiles = {"default_dirt.png"},
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 	sounds = default.node_sound_dirt_defaults(),
+	soil = {
+		base = "repose:reinforced_dirt",
+		dry = "repose:reinforced_soil",
+		wet = "repose:reinforced_soil_wet"
+	}
 })
 
 minetest.register_node("repose:reinforced_sand", {
@@ -53,39 +66,68 @@ minetest.register_node("repose:reinforced_desert_sand", {
 
 minetest.register_node("repose:reinforced_dirt_with_grass", {
 	description = "Reinforced Dirt with Grass",
-	tiles = {"default_grass.png", "default_dirt.png",
-		{name = "default_dirt.png^default_grass_side.png",
-			tileable_vertical = false}},
+	tiles = {"default_grass.png", "default_dirt.png", {name = "default_dirt.png^default_grass_side.png", tileable_vertical = false}},
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 	drop = "repose:reinforced_dirt",
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "default_grass_footstep", gain = 0.25},
 	}),
+	soil = {
+		base = "repose:reinforced_dirt",
+		dry = "repose:reinforced_soil",
+		wet = "repose:reinforced_soil_wet"
+	}
 })
 
 minetest.register_node("repose:reinforced_dirt_with_dry_grass", {
 	description = "Reinforced Dirt with Dry Grass",
-	tiles = {"default_dry_grass.png",
-		"default_dirt.png",
-		{name = "default_dirt.png^default_dry_grass_side.png",
-			tileable_vertical = false}},
+	tiles = {"default_dry_grass.png", "default_dirt.png", {name = "default_dirt.png^default_dry_grass_side.png", tileable_vertical = false}},
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 	drop = "repose:reinforced_dirt",
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "default_grass_footstep", gain = 0.4},
 	}),
+	soil = {
+		base = "repose:reinforced_dirt",
+		dry = "repose:reinforced_soil",
+		wet = "repose:reinforced_soil_wet"
+	}
 })
 
 minetest.register_node("repose:reinforced_dirt_with_snow", {
 	description = "Reinforced Dirt with Snow",
-	tiles = {"default_snow.png", "default_dirt.png",
-		{name = "default_dirt.png^default_snow_side.png",
-			tileable_vertical = false}},
+	tiles = {"default_snow.png", "default_dirt.png", {name = "default_dirt.png^default_snow_side.png", tileable_vertical = false}},
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 	drop = "repose:reinforced_dirt",
 	sounds = default.node_sound_dirt_defaults({
 		footstep = {name = "default_snow_footstep", gain = 0.15},
 	}),
+})
+
+minetest.register_node("repose:reinforced_soil", {
+	description = "Reinforced Soil",
+	tiles = {"default_dirt.png^farming_soil.png", "default_dirt.png"},
+	drop = "default:dirt",
+	groups = {crumbly=3, not_in_creative_inventory=1, soil=2, grassland = 1, field = 1, falling_node = 1},
+	sounds = default.node_sound_dirt_defaults(),
+	soil = {
+		base = "repose:reinforced_dirt",
+		dry = "repose:reinforced_soil",
+		wet = "repose:reinforced_soil_wet"
+	}
+})
+
+minetest.register_node("repose:reinforced_soil_wet", {
+	description = "Reinforced Wet Soil",
+	tiles = {"default_dirt.png^farming_soil_wet.png", "default_dirt.png^farming_soil_wet_side.png"},
+	drop = "default:dirt",
+	groups = {crumbly=3, not_in_creative_inventory=1, soil=3, wet = 1, grassland = 1, field = 1, falling_node = 1},
+	sounds = default.node_sound_dirt_defaults(),
+	soil = {
+		base = "repose:reinforced_dirt",
+		dry = "repose:reinforced_soil",
+		wet = "repose:reinforced_soil_wet"
+	}
 })
 
 -- crafting
@@ -209,3 +251,5 @@ register_abm("default:dirt_with_grass")
 register_abm("default:dirt_with_grass_footsteps")
 register_abm("default:dirt_with_dry_grass")
 register_abm("default:dirt_with_snow")
+register_abm("farming:soil")
+register_abm("farming:soil_wet")
