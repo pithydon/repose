@@ -1,39 +1,55 @@
 -- override nodes
 
+minetest.override_item("default:sand", {
+	groups = {crumbly = 3, falling_node = 1, falling_aor_node = 1, sand = 1}
+})
+
+minetest.override_item("default:desert_sand", {
+	groups = {crumbly = 3, falling_node = 1, falling_aor_node = 1, sand = 1, soil = 1}
+})
+
 minetest.override_item("default:stone", {
 	drop = "default:gravel"
 })
 
 minetest.override_item("default:gravel", {
-	groups = {crumbly = 2, falling_node = 1, stone = 1},
+	groups = {crumbly = 2, falling_node = 1, falling_aor_node = 1, stone = 1}
 })
 
 minetest.override_item("default:dirt", {
-	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	groups = {crumbly = 3, soil = 1, falling_node = 1, falling_aor_node = 1}
 })
 
 minetest.override_item("default:dirt_with_grass", {
-	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	groups = {crumbly = 3, soil = 1, falling_node = 1, falling_aor_node = 1}
 })
 
 minetest.override_item("default:dirt_with_grass_footsteps", {
-	groups = {crumbly = 3, soil = 1, not_in_creative_inventory = 1, falling_node = 1},
+	groups = {crumbly = 3, soil = 1, not_in_creative_inventory = 1, falling_node = 1, falling_aor_node = 1}
 })
 
 minetest.override_item("default:dirt_with_dry_grass", {
-	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	groups = {crumbly = 3, soil = 1, falling_node = 1, falling_aor_node = 1}
 })
 
 minetest.override_item("default:dirt_with_snow", {
-	groups = {crumbly = 3, soil = 1, falling_node = 1},
+	groups = {crumbly = 3, soil = 1, falling_node = 1, falling_aor_node = 1}
 })
 
 minetest.override_item("farming:soil", {
-	groups = {crumbly=3, not_in_creative_inventory=1, soil=2, grassland = 1, field = 1, falling_node = 1},
+	groups = {crumbly = 3, not_in_creative_inventory = 1, soil = 2, grassland = 1, field = 1, falling_node = 1, falling_aor_node = 1}
 })
 
 minetest.override_item("farming:soil_wet", {
-	groups = {crumbly=3, not_in_creative_inventory=1, soil=3, wet = 1, grassland = 1, field = 1, falling_node = 1},
+	groups = {crumbly = 3, not_in_creative_inventory = 1, soil = 3, wet = 1, grassland = 1, field = 1, falling_node = 1, falling_aor_node = 1}
+})
+
+minetest.override_item("farming:desert_sand_soil", {
+	groups = {crumbly = 3, not_in_creative_inventory = 1, falling_node = 1, falling_aor_node = 1, sand = 1, soil = 2, desert = 1, field = 1}
+})
+
+minetest.override_item("farming:desert_sand_soil_wet", {
+	groups = {crumbly = 3, falling_node = 1, falling_aor_node = 1, sand = 1, not_in_creative_inventory = 1, soil = 3, wet = 1, desert = 1, field = 1}
 })
 
 -- new nodes
@@ -54,14 +70,19 @@ minetest.register_node("repose:reinforced_sand", {
 	description = "Reinforced Sand",
 	tiles = {"default_sand.png"},
 	groups = {crumbly = 3, falling_node = 1, sand = 1},
-	sounds = default.node_sound_sand_defaults(),
+	sounds = default.node_sound_sand_defaults()
 })
 
 minetest.register_node("repose:reinforced_desert_sand", {
 	description = "Reinforced Desert Sand",
 	tiles = {"default_desert_sand.png"},
-	groups = {crumbly = 3, falling_node = 1, sand = 1},
+	groups = {crumbly = 3, falling_node = 1, sand = 1, soil = 1},
 	sounds = default.node_sound_sand_defaults(),
+	soil = {
+		base = "repose:reinforced_desert_sand",
+		dry = "repose:reinforced_desert_sand_soil",
+		wet = "repose:reinforced_desert_sand_soil_wet"
+	}
 })
 
 minetest.register_node("repose:reinforced_dirt_with_grass", {
@@ -70,7 +91,7 @@ minetest.register_node("repose:reinforced_dirt_with_grass", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 	drop = "repose:reinforced_dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_grass_footstep", gain = 0.25},
+		footstep = {name = "default_grass_footstep", gain = 0.25}
 	}),
 	soil = {
 		base = "repose:reinforced_dirt",
@@ -85,7 +106,7 @@ minetest.register_node("repose:reinforced_dirt_with_dry_grass", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 	drop = "repose:reinforced_dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_grass_footstep", gain = 0.4},
+		footstep = {name = "default_grass_footstep", gain = 0.4}
 	}),
 	soil = {
 		base = "repose:reinforced_dirt",
@@ -100,15 +121,15 @@ minetest.register_node("repose:reinforced_dirt_with_snow", {
 	groups = {crumbly = 3, soil = 1, falling_node = 1},
 	drop = "repose:reinforced_dirt",
 	sounds = default.node_sound_dirt_defaults({
-		footstep = {name = "default_snow_footstep", gain = 0.15},
+		footstep = {name = "default_snow_footstep", gain = 0.15}
 	}),
 })
 
 minetest.register_node("repose:reinforced_soil", {
 	description = "Reinforced Soil",
 	tiles = {"default_dirt.png^farming_soil.png", "default_dirt.png"},
-	drop = "default:dirt",
-	groups = {crumbly=3, not_in_creative_inventory=1, soil=2, grassland = 1, field = 1, falling_node = 1},
+	drop = "repose:reinforced_dirt",
+	groups = {crumbly = 3, not_in_creative_inventory = 1, soil = 2, grassland = 1, field = 1, falling_node = 1},
 	sounds = default.node_sound_dirt_defaults(),
 	soil = {
 		base = "repose:reinforced_dirt",
@@ -120,13 +141,39 @@ minetest.register_node("repose:reinforced_soil", {
 minetest.register_node("repose:reinforced_soil_wet", {
 	description = "Reinforced Wet Soil",
 	tiles = {"default_dirt.png^farming_soil_wet.png", "default_dirt.png^farming_soil_wet_side.png"},
-	drop = "default:dirt",
-	groups = {crumbly=3, not_in_creative_inventory=1, soil=3, wet = 1, grassland = 1, field = 1, falling_node = 1},
+	drop = "repose:reinforced_dirt",
+	groups = {crumbly = 3, not_in_creative_inventory = 1, soil = 3, wet = 1, grassland = 1, field = 1, falling_node = 1},
 	sounds = default.node_sound_dirt_defaults(),
 	soil = {
 		base = "repose:reinforced_dirt",
 		dry = "repose:reinforced_soil",
 		wet = "repose:reinforced_soil_wet"
+	}
+})
+
+minetest.register_node("repose:reinforced_desert_sand_soil", {
+	description = "Reinforced Desert Sand Soil",
+	drop = "repose:reinforced_desert_sand",
+	tiles = {"farming_desert_sand_soil.png", "default_desert_sand.png"},
+	groups = {crumbly = 3, not_in_creative_inventory = 1, falling_node = 1, sand = 1, soil = 2, desert = 1, field = 1},
+	sounds = default.node_sound_sand_defaults(),
+	soil = {
+		base = "repose:reinforced_desert_sand",
+		dry = "repose:reinforced_desert_sand_soil",
+		wet = "repose:reinforced_desert_sand_soil_wet"
+	}
+})
+
+minetest.register_node("repose:reinforced_desert_sand_soil_wet", {
+	description = "Reinforced Wet Desert Sand Soil",
+	drop = "repose:reinforced_desert_sand",
+	tiles = {"farming_desert_sand_soil_wet.png", "farming_desert_sand_soil_wet_side.png"},
+	groups = {crumbly = 3, falling_node = 1, sand = 1, not_in_creative_inventory = 1, soil = 3, wet = 1, desert = 1, field = 1},
+	sounds = default.node_sound_sand_defaults(),
+	soil = {
+		base = "repose:reinforced_desert_sand",
+		dry = "repose:reinforced_desert_sand_soil",
+		wet = "repose:reinforced_desert_sand_soil_wet"
 	}
 })
 
@@ -183,17 +230,15 @@ minetest.register_craft({
 minetest.register_craft({
 	type = "cooking",
 	output = "default:stone",
-	recipe = "default:gravel",
+	recipe = "default:gravel"
 })
 
 -- abm
 
 dofile(minetest.get_modpath("repose").."/lgplabm.lua")
 
-local register_abm = function (name)
-
 minetest.register_abm({
-	nodenames = {name},
+	nodenames = {"group:falling_aor_node"},
 	interval = 1,
 	chance = 1,
 	action = function(pos, node)
@@ -222,34 +267,21 @@ minetest.register_abm({
 		local downopen if down2.buildable_to and down.name ~= "ignore" then downopen = true else downopen = false end
 		if downopen then
 			minetest.set_node(pos, {name = "air"})
-			minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = name})
+			minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z}, {name = node.name})
 		else
 			if north2.buildable_to and northdownopen then
 				minetest.set_node(pos, {name = "air"})
-				minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = name})
+				minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z + 1}, {name = node.name})
 			elseif east2.buildable_to and eastdownopen then
 				minetest.set_node(pos, {name = "air"})
-				minetest.place_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = name})
+				minetest.place_node({x = pos.x + 1, y = pos.y - 1, z = pos.z}, {name = node.name})
 			elseif south2.buildable_to and southdownopen then
 				minetest.set_node(pos, {name = "air"})
-				minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = name})
+				minetest.place_node({x = pos.x, y = pos.y - 1, z = pos.z - 1}, {name = node.name})
 			elseif west2.buildable_to and westdownopen then
 				minetest.set_node(pos, {name = "air"})
-				minetest.place_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = name})
+				minetest.place_node({x = pos.x - 1, y = pos.y - 1, z = pos.z}, {name = node.name})
 			end
 		end
-	end,
+	end
 })
-
-end
-
-register_abm("default:sand")
-register_abm("default:desert_sand")
-register_abm("default:gravel")
-register_abm("default:dirt")
-register_abm("default:dirt_with_grass")
-register_abm("default:dirt_with_grass_footsteps")
-register_abm("default:dirt_with_dry_grass")
-register_abm("default:dirt_with_snow")
-register_abm("farming:soil")
-register_abm("farming:soil_wet")
